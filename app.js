@@ -547,3 +547,19 @@ window.startChallenge = startChallenge;
 window.uploadWork = uploadWork;
 window.adminRevealChallenge = adminRevealChallenge;
 window.markChallengeComplete = markChallengeComplete;
+
+// Add manual initialization function for testing
+window.manualInit = async function() {
+    console.log('=== MANUAL INITIALIZATION ===');
+    try {
+        await initializeDashboard();
+        await loadBingoCard();
+        console.log('Manual initialization complete');
+        console.log('Final state check:');
+        console.log('- progressData:', progressData);
+        console.log('- challengesData:', challengesData);
+        console.log('- currentChallenge:', currentChallenge);
+    } catch (error) {
+        console.error('Manual initialization failed:', error);
+    }
+};

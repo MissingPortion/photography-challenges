@@ -1,4 +1,3 @@
- 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -164,16 +163,23 @@
     <script src="app.js"></script>
     <script>
         // Initialize dashboard on load
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeDashboard();
-            loadBingoCard();
-            updateProgress();
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('DOM loaded, starting initialization...');
             
             // Smooth fade in
             document.body.style.opacity = '0';
             setTimeout(() => {
                 document.body.style.opacity = '1';
             }, 100);
+            
+            // Initialize dashboard with proper async handling
+            try {
+                await initializeDashboard();
+                await loadBingoCard();
+                console.log('All initialization complete');
+            } catch (error) {
+                console.error('Initialization failed:', error);
+            }
         });
 
         // Navigation functions
