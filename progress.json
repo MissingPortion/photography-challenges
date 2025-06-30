@@ -1,1 +1,49 @@
- 
+ {
+  "current_location": "Pizzaguy",
+  "current_challenge_id": "pizzaguy",
+  "challenge_revealed": false,
+  "challenge_completed": false,
+  "total_challenges": 17,
+  "completed_count": 0,
+  "completed_challenges": [],
+  "style_bingo": {
+    "completed_styles": [],
+    "grid": [
+      ["Film Noir B&W", "Golden Hour", "Street Doc", "Minimalist", "Cinematic Wide"],
+      ["Handheld Verite", "Static Wide Shot", "Quick Cut Montage", "Slow Motion", "One Take"],
+      ["High Contrast", "Vintage Film", "Clean Modern", "Moody Dark", "FREE SPACE"],
+      ["Macro Close-up", "Bird's Eye View", "Low Angle", "Symmetrical", "Rule of Thirds"],
+      ["Silhouette", "Reflection Shot", "Leading Lines", "Bokeh Portrait", "Time-lapse"]
+    ],
+    "style_types": {
+      "Film Noir B&W": "PHOTO",
+      "Golden Hour": "PHOTO", 
+      "Street Doc": "PHOTO",
+      "Minimalist": "PHOTO",
+      "Cinematic Wide": "VIDEO",
+      "Handheld Verite": "VIDEO",
+      "Static Wide Shot": "VIDEO",
+      "Quick Cut Montage": "EDIT",
+      "Slow Motion": "VIDEO",
+      "One Take": "VIDEO",
+      "High Contrast": "EDIT",
+      "Vintage Film": "EDIT",
+      "Clean Modern": "EDIT",
+      "Moody Dark": "EDIT",
+      "FREE SPACE": "FREE",
+      "Macro Close-up": "PHOTO",
+      "Bird's Eye View": "PHOTO",
+      "Low Angle": "PHOTO",
+      "Symmetrical": "PHOTO",
+      "Rule of Thirds": "PHOTO",
+      "Silhouette": "PHOTO",
+      "Reflection Shot": "PHOTO",
+      "Leading Lines": "PHOTO",
+      "Bokeh Portrait": "PHOTO",
+      "Time-lapse": "VIDEO"
+    }
+  },
+  "last_updated": "2025-06-30T21:00:00Z",
+  "admin_notes": "First challenge ready - gift placed at Pizzaguy",
+  "next_reveal_date": null
+}

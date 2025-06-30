@@ -1,1 +1,123 @@
- 
+{
+  "challenges": {
+    "pizzaguy": {
+      "id": "pizzaguy",
+      "title": "For the Love of Pizza",
+      "location": "Pizzaguy",
+      "memory_context": "Where relationship discussions first happened, inconsistent pizza, walked from here to first kiss location",
+      "equipment": "mobile",
+      "allowance": "GHS 60",
+      "options": [
+        {
+          "id": "complex",
+          "title": "Documentary Style",
+          "description": "Interview someone at Pizzaguy about their relationship with pizza/love. Film pizza-making process at Pinocchio. Edit together: pizza-making visuals with interview audio overlay.",
+          "duration": "90 seconds max",
+          "difficulty": "Complex"
+        },
+        {
+          "id": "photo",
+          "title": "Pizza Moments",
+          "description": "5-photo series of 'pizza moments' at Pizzaguy. Capture different emotions: first bites, anticipation, hands reaching for slices.",
+          "duration": "5 photos max",
+          "difficulty": "Simple Photo"
+        },
+        {
+          "id": "video",
+          "title": "Pizza Ritual",
+          "description": "60-second video of pizza-making process at Pinocchio with natural sound. Focus on craft/ritual of making something that brings people together.",
+          "duration": "60 seconds max",
+          "difficulty": "Simple Video"
+        },
+        {
+          "id": "creative",
+          "title": "Your Take",
+          "description": "Use the core concept of 'pizza and relationships' to create your own interpretation. Any format, any approach that connects food and connection.",
+          "duration": "Your choice",
+          "difficulty": "Creative Alternative"
+        }
+      ]
+    },
+    "district24": {
+      "id": "district24", 
+      "title": "24/7 Love Story",
+      "location": "District24",
+      "memory_context": "Home away from home, daily hangout spot, know all the staff, 24-hour location with consistently average food",
+      "equipment": "mobile",
+      "allowance": "GHS 40",
+      "options": [
+        {
+          "id": "complex",
+          "title": "Time Transformation",
+          "description": "Choose any single public space. Document it over 24 hours with photos/video clips every 2-3 hours. Edit into 90-second piece showing how space transforms throughout day/night cycle.",
+          "duration": "90 seconds max",
+          "difficulty": "Complex"
+        },
+        {
+          "id": "photo", 
+          "title": "Same Spot, Different Times",
+          "description": "5-photo series of same exact spot at 5 different times over 24 hours. Show how lighting, people, and mood change in one location.",
+          "duration": "5 photos max",
+          "difficulty": "Simple Photo"
+        },
+        {
+          "id": "video",
+          "title": "Space in Motion",
+          "description": "60-second time-lapse of one space over several hours. Focus on rhythm and flow of how spaces change throughout the day.",
+          "duration": "60 seconds max", 
+          "difficulty": "Simple Video"
+        }
+      ]
+    },
+    "social_ghana": {
+      "id": "social_ghana",
+      "title": "Social Butterfly Effect", 
+      "location": "Social Ghana",
+      "memory_context": "Weekend hangout spot, always crowded, mix of local and international crowd, good vibes",
+      "equipment": "mobile",
+      "allowance": "GHS 50",
+      "options": [
+        {
+          "id": "complex",
+          "title": "Crowd Dynamics",
+          "description": "Document how different groups interact in the same space. Create a 90-second piece about social connections and disconnections.",
+          "duration": "90 seconds max",
+          "difficulty": "Complex"
+        },
+        {
+          "id": "photo",
+          "title": "Social Moments", 
+          "description": "5-photo series capturing different types of social interactions - laughter, conversations, solitude in crowds.",
+          "duration": "5 photos max",
+          "difficulty": "Simple Photo"
+        },
+        {
+          "id": "video",
+          "title": "Weekend Energy",
+          "description": "60-second video capturing the energy and atmosphere of Social Ghana on a typical weekend.",
+          "duration": "60 seconds max",
+          "difficulty": "Simple Video"
+        }
+      ]
+    }
+  },
+  "upcoming_challenges": [
+    "kokrobite",
+    "ethiopian_restaurant", 
+    "good_baker",
+    "pinocchio",
+    "el_wak_stadium",
+    "skatepark",
+    "libya_street",
+    "afotey_street", 
+    "sowutuom",
+    "bbnz_live",
+    "bantama",
+    "the_place",
+    "ubers_bolts",
+    "frimps_roundabout"
+  ],
+  "total_challenges": 17,
+  "drive_folder_url": "https://drive.google.com/drive/folders/YOUR_SHARED_FOLDER_ID",
+  "admin_contact": "WhatsApp for location confirmations and challenge reveals"
+}
