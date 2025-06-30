@@ -174,11 +174,10 @@
             
             // Initialize dashboard with proper async handling
             try {
-                await initializeDashboard();
-                await loadBingoCard();
-                console.log('All initialization complete');
+                await window.initializeDashboard();
+                console.log('Page initialization complete');
             } catch (error) {
-                console.error('Initialization failed:', error);
+                console.error('Page initialization failed:', error);
             }
         });
 
@@ -197,47 +196,9 @@
             window.open(mapsUrl, '_blank');
         }
 
-        function markFound() {
-            // Simulate finding the gift - switches to challenge mode
-            document.getElementById('location-mode').classList.add('hidden');
-            document.getElementById('challenge-mode').classList.remove('hidden');
-            
-            // In real app, this would trigger WhatsApp notification to admin
-            console.log('Gift found! Challenge unlocked.');
-        }
-
-        function startChallenge() {
-            // Scroll to challenge details
-            document.getElementById('challenge-details').scrollIntoView({ 
-                behavior: 'smooth' 
-            });
-        }
-
-        function uploadWork() {
-            // Open shared Google Drive folder
-            const driveUrl = 'https://drive.google.com/drive/folders/YOUR_SHARED_FOLDER_ID';
-            window.open(driveUrl, '_blank');
-        }
-
         function toggleHelp() {
             const modal = document.getElementById('help-modal');
             modal.classList.toggle('hidden');
-        }
-
-        // Will be implemented in app.js
-        function initializeDashboard() {
-            // Load current state from progress.json
-            console.log('Dashboard initialized');
-        }
-
-        function loadBingoCard() {
-            // Generate 5x5 bingo grid
-            console.log('Bingo card loaded');
-        }
-
-        function updateProgress() {
-            // Update progress indicators
-            console.log('Progress updated');
         }
     </script>
 </body>

@@ -7,24 +7,33 @@ let currentChallenge = null;
 async function initializeDashboard() {
     console.log('Starting dashboard initialization...');
     try {
-        // Load data from JSON files
-        await loadProgressData();
-        await loadChallengesData();
+        // Load data from JSON files - MUST be sequential
+        const progress = await loadProgressData();
+        const challenges = await loadChallengesData();
         
-        console.log('Data loaded, checking variables:');
-        console.log('progressData:', progressData);
-        console.log('challengesData:', challengesData);
-        console.log('currentChallenge:', currentChallenge);
+        // Verify data loaded correctly
+        if (!progressData || !challengesData || !currentChallenge) {
+            throw new Error('Failed to load required data');
+        }
+        
+        console.log('Data loaded successfully:', {
+            progressData: !!progressData,
+            challengesData: !!challengesData,
+            currentChallenge: !!currentChallenge
+        });
         
         // Update UI based on current state
         updateDashboardState();
         updateProgressIndicators();
+        loadBingoCard();
         loadCompletedChallenges();
         
         console.log('Dashboard initialized successfully');
+        return true;
     } catch (error) {
         console.error('Failed to initialize dashboard:', error);
         showError('Failed to load challenge data');
+        return false;
     }
 }
 
@@ -33,8 +42,11 @@ async function loadProgressData() {
     try {
         const response = await fetch('progress.json');
         if (!response.ok) throw new Error('Failed to load progress data');
-        progressData = await response.json();
-        console.log('Progress data loaded successfully:', progressData);
+        
+        const data = await response.json();
+        progressData = data;
+        
+        console.log('Progress data loaded:', progressData);
         return progressData;
     } catch (error) {
         console.error('Error loading progress data:', error);
@@ -47,14 +59,18 @@ async function loadChallengesData() {
     try {
         const response = await fetch('challenges.json');
         if (!response.ok) throw new Error('Failed to load challenges data');
-        challengesData = await response.json();
-        console.log('Challenges data loaded successfully:', challengesData);
         
-        // Get current challenge
+        const data = await response.json();
+        challengesData = data;
+        
+        // Get current challenge - ONLY after progressData is loaded
         if (progressData && progressData.current_challenge_id) {
             currentChallenge = challengesData.challenges[progressData.current_challenge_id];
             console.log('Current challenge set:', currentChallenge);
+        } else {
+            throw new Error('No current challenge ID in progress data');
         }
+        
         return challengesData;
     } catch (error) {
         console.error('Error loading challenges data:', error);
@@ -65,14 +81,9 @@ async function loadChallengesData() {
 // Update dashboard state based on progress data
 function updateDashboardState() {
     console.log('Updating dashboard state...');
-    console.log('progressData check:', progressData);
-    console.log('currentChallenge check:', currentChallenge);
     
     if (!progressData || !currentChallenge) {
-        console.error('Missing data for dashboard update:', {
-            progressData: !!progressData,
-            currentChallenge: !!currentChallenge
-        });
+        console.error('Missing data for dashboard update');
         return;
     }
     
@@ -88,15 +99,12 @@ function updateDashboardState() {
     
     if (progressData.challenge_completed) {
         // Show completion mode
-        console.log('Showing completion mode');
         showCompletionMode();
     } else if (progressData.challenge_revealed) {
         // Show challenge mode
-        console.log('Showing challenge mode');
         showChallengeMode();
     } else {
         // Show location mode
-        console.log('Showing location mode');
         showLocationMode();
     }
 }
@@ -105,6 +113,11 @@ function updateDashboardState() {
 function showLocationMode() {
     const locationMode = document.getElementById('location-mode');
     const locationName = document.getElementById('location-name');
+    
+    if (!locationMode || !locationName) {
+        console.error('Location mode elements not found');
+        return;
+    }
     
     locationMode.classList.remove('hidden');
     locationName.textContent = currentChallenge.location;
@@ -116,16 +129,25 @@ function showChallengeMode() {
     const challengeTitle = document.getElementById('challenge-title');
     const challengeOptions = document.getElementById('challenge-options');
     
+    if (!challengeMode || !challengeTitle || !challengeOptions) {
+        console.error('Challenge mode elements not found');
+        return;
+    }
+    
     challengeMode.classList.remove('hidden');
     challengeTitle.textContent = currentChallenge.title;
     
     // Clear and rebuild challenge options
     challengeOptions.innerHTML = '';
     
-    currentChallenge.options.forEach((option, index) => {
-        const optionElement = createChallengeOption(option, index);
-        challengeOptions.appendChild(optionElement);
-    });
+    if (currentChallenge.options && currentChallenge.options.length > 0) {
+        currentChallenge.options.forEach((option, index) => {
+            const optionElement = createChallengeOption(option, index);
+            challengeOptions.appendChild(optionElement);
+        });
+    } else {
+        console.error('No challenge options found');
+    }
 }
 
 // Create challenge option element
@@ -172,6 +194,11 @@ function showCompletionMode() {
     const completedCount = document.getElementById('completed-count');
     const remainingCount = document.getElementById('remaining-count');
     
+    if (!completionMode || !completionTitle || !completedCount || !remainingCount) {
+        console.error('Completion mode elements not found');
+        return;
+    }
+    
     completionMode.classList.remove('hidden');
     completionTitle.textContent = `${currentChallenge.location}: Complete`;
     completedCount.textContent = progressData.completed_count;
@@ -180,7 +207,10 @@ function showCompletionMode() {
 
 // Update progress indicators
 function updateProgressIndicators() {
-    if (!progressData) return;
+    if (!progressData) {
+        console.error('No progress data for indicators');
+        return;
+    }
     
     // Update header progress
     const currentProgress = document.getElementById('current-progress');
@@ -213,10 +243,16 @@ function updateProgressIndicators() {
 
 // Load Style Bingo Card
 function loadBingoCard() {
-    if (!progressData || !progressData.style_bingo) return;
+    if (!progressData || !progressData.style_bingo) {
+        console.error('No bingo data available');
+        return;
+    }
     
     const bingoCard = document.getElementById('bingo-card');
-    if (!bingoCard) return;
+    if (!bingoCard) {
+        console.error('Bingo card element not found');
+        return;
+    }
     
     // Clear existing content
     bingoCard.innerHTML = '';
@@ -251,6 +287,8 @@ function loadBingoCard() {
             bingoCard.appendChild(cell);
         });
     });
+    
+    console.log('Bingo card populated with', grid.length * grid[0].length, 'cells');
 }
 
 // Handle bingo style selection
@@ -302,10 +340,16 @@ function showStyleInfo(style, type) {
 
 // Load completed challenges
 function loadCompletedChallenges() {
-    if (!progressData || !challengesData) return;
+    if (!progressData || !challengesData) {
+        console.error('No data for completed challenges');
+        return;
+    }
     
     const completedContainer = document.getElementById('completed-challenges');
-    if (!completedContainer) return;
+    if (!completedContainer) {
+        console.error('Completed challenges container not found');
+        return;
+    }
     
     // Clear existing content
     completedContainer.innerHTML = '';
@@ -401,6 +445,15 @@ function uploadWork() {
     window.open(driveUrl, '_blank');
     
     console.log('Opening upload folder');
+}
+
+// Simulate finding the gift (for testing)
+function markFound() {
+    if (progressData) {
+        progressData.challenge_revealed = true;
+        updateDashboardState();
+        console.log('Gift found! Challenge unlocked.');
+    }
 }
 
 // Simulate challenge completion (for testing)
@@ -547,18 +600,20 @@ window.startChallenge = startChallenge;
 window.uploadWork = uploadWork;
 window.adminRevealChallenge = adminRevealChallenge;
 window.markChallengeComplete = markChallengeComplete;
+window.markFound = markFound;
 
 // Add manual initialization function for testing
 window.manualInit = async function() {
     console.log('=== MANUAL INITIALIZATION ===');
     try {
-        await initializeDashboard();
-        await loadBingoCard();
-        console.log('Manual initialization complete');
-        console.log('Final state check:');
-        console.log('- progressData:', progressData);
-        console.log('- challengesData:', challengesData);
-        console.log('- currentChallenge:', currentChallenge);
+        const success = await initializeDashboard();
+        if (success) {
+            console.log('Manual initialization complete');
+            console.log('Final state check:');
+            console.log('- progressData:', progressData);
+            console.log('- challengesData:', challengesData);
+            console.log('- currentChallenge:', currentChallenge);
+        }
     } catch (error) {
         console.error('Manual initialization failed:', error);
     }
