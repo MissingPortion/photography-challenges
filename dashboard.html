@@ -1,1 +1,238 @@
  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Quest Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-body">
+    <!-- Header -->
+    <header class="dashboard-header">
+        <div class="header-content">
+            <button class="back-button" onclick="goHome()">
+                <span class="back-icon">←</span>
+                <span class="back-text">Back</span>
+            </button>
+            <h1 class="dashboard-title">Photo Quest</h1>
+            <div class="progress-indicator">
+                <span id="current-progress">0/17</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="dashboard-main">
+        <!-- Current Status Section -->
+        <section class="status-section">
+            <div class="status-card" id="status-card">
+                <!-- This content changes based on current state -->
+                <div class="status-content" id="status-content">
+                    <!-- LOCATION ONLY MODE -->
+                    <div class="status-mode location-mode" id="location-mode">
+                        <div class="status-icon">📍</div>
+                        <h2 class="status-title">Next Stop:</h2>
+                        <h3 class="location-name" id="location-name">Pizzaguy</h3>
+                        <p class="location-hint">Find your surprise there, then come back!</p>
+                        <div class="action-buttons">
+                            <button class="action-btn primary" onclick="openMaps()">
+                                <span class="btn-icon">🗺️</span>
+                                <span class="btn-text">Get Directions</span>
+                            </button>
+                            <button class="action-btn secondary" onclick="markFound()">
+                                <span class="btn-icon">🎁</span>
+                                <span class="btn-text">Found It!</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- CHALLENGE REVEALED MODE -->
+                    <div class="status-mode challenge-mode hidden" id="challenge-mode">
+                        <div class="status-icon">🎯</div>
+                        <h2 class="status-title">Challenge Unlocked!</h2>
+                        <h3 class="challenge-title" id="challenge-title">For the Love of Pizza</h3>
+                        <div class="challenge-details" id="challenge-details">
+                            <p class="challenge-description">
+                                Time to get creative at our pizza spot. Pick your style:
+                            </p>
+                            <div class="challenge-options" id="challenge-options">
+                                <!-- Options will be loaded dynamically -->
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="action-btn primary" onclick="startChallenge()">
+                                <span class="btn-icon">📸</span>
+                                <span class="btn-text">Let's Do This</span>
+                            </button>
+                            <button class="action-btn secondary" onclick="uploadWork()">
+                                <span class="btn-icon">📤</span>
+                                <span class="btn-text">Upload My Work</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- COMPLETION MODE -->
+                    <div class="status-mode completion-mode hidden" id="completion-mode">
+                        <div class="status-icon">🎉</div>
+                        <h2 class="status-title">Nice Work!</h2>
+                        <h3 class="completion-title" id="completion-title">Pizzaguy: Complete</h3>
+                        <p class="completion-message">
+                            Challenge conquered! Waiting for your next mission...
+                        </p>
+                        <div class="completion-stats">
+                            <div class="stat-item">
+                                <span class="stat-value" id="completed-count">1</span>
+                                <span class="stat-label">Completed</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value" id="remaining-count">16</span>
+                                <span class="stat-label">To Go</span>
+                            </div>
+                        </div>
+                        <button class="action-btn primary disabled">
+                            <span class="btn-icon">⏳</span>
+                            <span class="btn-text">Waiting for Next...</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Style Bingo Section -->
+        <section class="bingo-section">
+            <div class="bingo-header">
+                <h3 class="bingo-title">Style Bingo</h3>
+                <p class="bingo-subtitle">Try different styles as you go</p>
+            </div>
+            <div class="bingo-card" id="bingo-card">
+                <!-- 5x5 grid will be generated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Progress Overview -->
+        <section class="progress-section">
+            <div class="progress-header">
+                <h3 class="progress-title">Your Journey</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="completed-challenges" id="completed-challenges">
+                <!-- Completed challenges will be shown here -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Floating Action Button -->
+    <div class="fab-container">
+        <button class="fab" onclick="toggleHelp()">
+            <span class="fab-icon">?</span>
+        </button>
+    </div>
+
+    <!-- Help Modal -->
+    <div class="modal-overlay hidden" id="help-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>How This Works</h3>
+                <button class="modal-close" onclick="toggleHelp()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="help-section">
+                    <h4>🗺️ Step 1: Find the Spot</h4>
+                    <p>Go to the location shown above. Look for a hidden surprise!</p>
+                </div>
+                <div class="help-section">
+                    <h4>🎁 Step 2: Claim Your Gift</h4>
+                    <p>Found it? Hit "Found It!" and the challenge will unlock.</p>
+                </div>
+                <div class="help-section">
+                    <h4>📸 Step 3: Get Creative</h4>
+                    <p>Choose a challenge option and make something cool. No pressure!</p>
+                </div>
+                <div class="help-section">
+                    <h4>🎨 Step 4: Try New Styles</h4>
+                    <p>Pick styles from the bingo card to level up your skills.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        // Initialize dashboard on load
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDashboard();
+            loadBingoCard();
+            updateProgress();
+            
+            // Smooth fade in
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        // Navigation functions
+        function goHome() {
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 300);
+        }
+
+        function openMaps() {
+            // Will open Maps app with location
+            const locationName = document.getElementById('location-name').textContent;
+            const mapsUrl = `https://maps.google.com/maps?q=${encodeURIComponent(locationName + ' Accra Ghana')}`;
+            window.open(mapsUrl, '_blank');
+        }
+
+        function markFound() {
+            // Simulate finding the gift - switches to challenge mode
+            document.getElementById('location-mode').classList.add('hidden');
+            document.getElementById('challenge-mode').classList.remove('hidden');
+            
+            // In real app, this would trigger WhatsApp notification to admin
+            console.log('Gift found! Challenge unlocked.');
+        }
+
+        function startChallenge() {
+            // Scroll to challenge details
+            document.getElementById('challenge-details').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        function uploadWork() {
+            // Open shared Google Drive folder
+            const driveUrl = 'https://drive.google.com/drive/folders/YOUR_SHARED_FOLDER_ID';
+            window.open(driveUrl, '_blank');
+        }
+
+        function toggleHelp() {
+            const modal = document.getElementById('help-modal');
+            modal.classList.toggle('hidden');
+        }
+
+        // Will be implemented in app.js
+        function initializeDashboard() {
+            // Load current state from progress.json
+            console.log('Dashboard initialized');
+        }
+
+        function loadBingoCard() {
+            // Generate 5x5 bingo grid
+            console.log('Bingo card loaded');
+        }
+
+        function updateProgress() {
+            // Update progress indicators
+            console.log('Progress updated');
+        }
+    </script>
+</body>
+</html>
