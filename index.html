@@ -1,1 +1,162 @@
- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photography Challenge Journey</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <main class="landing-container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="title-line-1">Aseye's</span>
+                    <span class="title-line-2">Photo Quest</span>
+                </h1>
+                <p class="hero-subtitle">
+                    17 spots we know. 17 creative prompts. 
+                    <br>Zero rules. Maximum chaos.
+                </p>
+                
+                <!-- Progress Preview -->
+                <div class="progress-preview">
+                    <div class="progress-circle">
+                        <svg class="progress-ring" width="60" height="60">
+                            <circle class="progress-ring-bg" cx="30" cy="30" r="25"></circle>
+                            <circle class="progress-ring-fill" cx="30" cy="30" r="25" id="progress-circle"></circle>
+                        </svg>
+                        <span class="progress-text" id="progress-count">0/17</span>
+                    </div>
+                    <p class="progress-label">Spots Conquered</p>
+                </div>
+            </div>
+            
+            <!-- Visual Element -->
+            <div class="hero-visual">
+                <div class="camera-icon">
+                    <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path>
+                        <circle cx="12" cy="13" r="3"></circle>
+                    </svg>
+                </div>
+                <div class="floating-hearts">
+                    <span class="heart heart-1">💕</span>
+                    <span class="heart heart-2">📸</span>
+                    <span class="heart heart-3">🎥</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Personal Message -->
+        <section class="message-section">
+            <div class="message-card">
+                <h2 class="message-title">Alright, Listen Up</h2>
+                <p class="message-text">
+                    Remember all those random places we end up at? Well, I've turned them into 
+                    your personal creative playground. Each spot has some prompts - do with them 
+                    what you want. Make something cool, make something weird, I don't care.
+                </p>
+                <p class="message-text">
+                    Think of it as hide and seek, but with cameras and a lot more running around Accra.
+                </p>
+            </div>
+        </section>
+
+        <!-- Journey Overview -->
+        <section class="overview-section">
+            <h3 class="overview-title">Here's the Deal</h3>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🗺️</div>
+                    <h4>17 Random Spots</h4>
+                    <p>Places you know, places you don't</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h4>Creative Prompts</h4>
+                    <p>Suggestions, not orders. Go wild.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h4>Style Bingo</h4>
+                    <p>Try new things or stick to what works</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎁</div>
+                    <h4>Surprise Hunts</h4>
+                    <p>Find stuff I've hidden around town</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="cta-section">
+            <div class="cta-content">
+                <h3 class="cta-title">Ready to Cause Some Trouble?</h3>
+                <p class="cta-subtitle">Your first mission is loading...</p>
+                <button class="cta-button" onclick="enterJourney()">
+                    <span class="button-text">Let's Go</span>
+                    <span class="button-icon">→</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="landing-footer">
+            <p class="footer-text">Made with mischief 😈 (and some love I guess)</p>
+        </footer>
+    </main>
+
+    <script>
+        // Simple progress loading animation
+        function updateProgress() {
+            // This will be updated with real data later
+            const progressCount = 0; // Will be loaded from progress.json
+            const totalChallenges = 17;
+            
+            document.getElementById('progress-count').textContent = `${progressCount}/${totalChallenges}`;
+            
+            // Update circle progress
+            const circle = document.getElementById('progress-circle');
+            const circumference = 2 * Math.PI * 25;
+            const progress = (progressCount / totalChallenges) * circumference;
+            
+            circle.style.strokeDasharray = circumference;
+            circle.style.strokeDashoffset = circumference - progress;
+        }
+
+        function enterJourney() {
+            // Smooth transition to dashboard
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 300);
+        }
+
+        // Floating hearts animation
+        function animateHearts() {
+            const hearts = document.querySelectorAll('.heart');
+            hearts.forEach((heart, index) => {
+                heart.style.animationDelay = `${index * 0.5}s`;
+            });
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgress();
+            animateHearts();
+            
+            // Smooth fade in
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
