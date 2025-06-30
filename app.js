@@ -5,10 +5,16 @@ let currentChallenge = null;
 
 // Initialize dashboard when DOM is loaded
 async function initializeDashboard() {
+    console.log('Starting dashboard initialization...');
     try {
         // Load data from JSON files
         await loadProgressData();
         await loadChallengesData();
+        
+        console.log('Data loaded, checking variables:');
+        console.log('progressData:', progressData);
+        console.log('challengesData:', challengesData);
+        console.log('currentChallenge:', currentChallenge);
         
         // Update UI based on current state
         updateDashboardState();
@@ -28,6 +34,8 @@ async function loadProgressData() {
         const response = await fetch('progress.json');
         if (!response.ok) throw new Error('Failed to load progress data');
         progressData = await response.json();
+        console.log('Progress data loaded successfully:', progressData);
+        return progressData;
     } catch (error) {
         console.error('Error loading progress data:', error);
         throw error;
@@ -40,11 +48,14 @@ async function loadChallengesData() {
         const response = await fetch('challenges.json');
         if (!response.ok) throw new Error('Failed to load challenges data');
         challengesData = await response.json();
+        console.log('Challenges data loaded successfully:', challengesData);
         
         // Get current challenge
         if (progressData && progressData.current_challenge_id) {
             currentChallenge = challengesData.challenges[progressData.current_challenge_id];
+            console.log('Current challenge set:', currentChallenge);
         }
+        return challengesData;
     } catch (error) {
         console.error('Error loading challenges data:', error);
         throw error;
@@ -53,21 +64,39 @@ async function loadChallengesData() {
 
 // Update dashboard state based on progress data
 function updateDashboardState() {
-    if (!progressData || !currentChallenge) return;
+    console.log('Updating dashboard state...');
+    console.log('progressData check:', progressData);
+    console.log('currentChallenge check:', currentChallenge);
+    
+    if (!progressData || !currentChallenge) {
+        console.error('Missing data for dashboard update:', {
+            progressData: !!progressData,
+            currentChallenge: !!currentChallenge
+        });
+        return;
+    }
     
     // Hide all modes first
     document.querySelectorAll('.status-mode').forEach(mode => {
         mode.classList.add('hidden');
     });
     
+    console.log('Challenge state:', {
+        completed: progressData.challenge_completed,
+        revealed: progressData.challenge_revealed
+    });
+    
     if (progressData.challenge_completed) {
         // Show completion mode
+        console.log('Showing completion mode');
         showCompletionMode();
     } else if (progressData.challenge_revealed) {
         // Show challenge mode
+        console.log('Showing challenge mode');
         showChallengeMode();
     } else {
         // Show location mode
+        console.log('Showing location mode');
         showLocationMode();
     }
 }
